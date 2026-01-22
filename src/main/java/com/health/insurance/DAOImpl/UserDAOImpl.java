@@ -10,7 +10,7 @@ import org.hibernate.query.Query;
 
 public class UserDAOImpl implements UserDAO {
 
-    private SessionFactory sessionFactory;
+    private final SessionFactory sessionFactory;
     public UserDAOImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }

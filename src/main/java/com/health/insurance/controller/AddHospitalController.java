@@ -4,6 +4,7 @@ import com.health.insurance.DAO.HospitalDAO;
 import com.health.insurance.DAOImpl.HospitalDAOImpl;
 import com.health.insurance.Main;
 import com.health.insurance.beans.Hospital;
+import com.health.insurance.exception.NavigationException;
 import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -69,8 +70,17 @@ public class AddHospitalController {
             Main.primaryStage.setMaxHeight(700);
 
         }catch(Exception e) {
-            System.out.println(e);
+            showErrorAlert();
+            throw new NavigationException("Failed to navigate to Dashboard", e);
         }
+
+    }
+
+    private void showErrorAlert() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setHeaderText("Navigation Error");
+        alert.setContentText("Unable to load the Dashboard screen.");
+        alert.showAndWait();
     }
 
 }
