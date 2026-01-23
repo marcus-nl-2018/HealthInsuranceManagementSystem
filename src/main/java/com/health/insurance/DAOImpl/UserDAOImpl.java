@@ -2,6 +2,7 @@ package com.health.insurance.DAOImpl;
 
 import com.health.insurance.DAO.UserDAO;
 import com.health.insurance.beans.User;
+import com.health.insurance.exception.DataAccessException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -25,9 +26,11 @@ public class UserDAOImpl implements UserDAO {
             hibernateSession.close();
             return true;
         } catch(Exception e) {
-            System.out.println(e.getMessage());
+            throw new DataAccessException(
+                    "Error saving User",
+                    e
+            );
         }
-        return false;
     }
 
     @Override
@@ -38,9 +41,10 @@ public class UserDAOImpl implements UserDAO {
             User user = query.getSingleResult();
             return user;
         }catch(Exception e) {
-            return null;
+            throw new DataAccessException(
+                    "Error getting User",
+                    e
+            );
         }
     }
-
-
 }

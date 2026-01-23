@@ -2,6 +2,7 @@ package com.health.insurance.DAOImpl;
 
 import com.health.insurance.DAO.PhysicianDAO;
 import com.health.insurance.beans.Physician;
+import com.health.insurance.exception.DataAccessException;
 import com.health.insurance.util.FactoryProvider;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -22,10 +23,11 @@ public class PhysicianDAOImpl implements PhysicianDAO {
             hibernateSession.close();
             return true;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            throw new DataAccessException(
+                    "Error saving Physician",
+                    e
+            );
         }
-
-        return false;
     }
 
     @Override
@@ -38,7 +40,10 @@ public class PhysicianDAOImpl implements PhysicianDAO {
             hibernateTransaction.commit();
             hibernateSession.close();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            throw new DataAccessException(
+                    "Error updating Physician",
+                    e
+            );
         }
     }
 
@@ -53,9 +58,11 @@ public class PhysicianDAOImpl implements PhysicianDAO {
             hibernateSession.close();
             return true;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            throw new DataAccessException(
+                    "Error removing Physician",
+                    e
+            );
         }
-        return false;
     }
 
     @Override
@@ -69,10 +76,11 @@ public class PhysicianDAOImpl implements PhysicianDAO {
             hibernateSession.close();
             return physician;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            throw new DataAccessException(
+                    "Error getting Physician",
+                    e
+            );
         }
-        return null;
-
     }
 
     @Override
@@ -83,8 +91,10 @@ public class PhysicianDAOImpl implements PhysicianDAO {
             List<Physician> listOfPhysicians = query.list();
             return listOfPhysicians;
         } catch (Exception e){
-            System.out.println(e.getMessage());
+            throw new DataAccessException(
+                    "Error getting a list of Physician",
+                    e
+            );
         }
-        return null;
     }
 }

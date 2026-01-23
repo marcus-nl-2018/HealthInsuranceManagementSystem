@@ -18,6 +18,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import org.hibernate.SessionFactory;
 
+import static com.health.insurance.util.AlertUtil.showAlert;
+
 public class LoginController implements Initializable {
 
     @FXML
@@ -41,10 +43,7 @@ public class LoginController implements Initializable {
         String userNameText = userName.getText();
         String passwordText = password.getText();
         if(userNameText.isEmpty() || passwordText.isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setHeaderText("Empty Fields");
-            alert.setContentText("Both Username and Password are required");
-            alert.showAndWait();
+            showAlert(Alert.AlertType.WARNING, "Empty Fields!", "Both Username and Password are required");
         } else {
             User user = userDAO.getUser(userNameText, passwordText);
             if(user!=null) {
@@ -56,13 +55,9 @@ public class LoginController implements Initializable {
                 Main.primaryStage.setScene(scene);
                 Main.primaryStage.show();
             }else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText("Login Failed");
-                alert.setContentText("Invalid Username or Password");
-                alert.showAndWait();
+                showAlert(Alert.AlertType.ERROR, "Login Failed!", "Invalid Username or Password");
             }
         }
-
     }
 
     @FXML

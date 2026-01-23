@@ -2,6 +2,7 @@ package com.health.insurance.DAOImpl;
 
 import com.health.insurance.DAO.PharmacyDAO;
 import com.health.insurance.beans.Pharmacy;
+import com.health.insurance.exception.DataAccessException;
 import com.health.insurance.util.FactoryProvider;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -22,9 +23,11 @@ public class PharmacyDAOImpl implements PharmacyDAO {
             hibernateSession.close();
             return true;
         }catch (Exception e) {
-            System.out.println(e.getMessage());
+            throw new DataAccessException(
+                    "Error saving Pharmacy",
+                    e
+            );
         }
-        return false;
     }
 
     @Override
@@ -37,7 +40,10 @@ public class PharmacyDAOImpl implements PharmacyDAO {
             hibernateTransaction.commit();
             hibernateSession.close();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            throw new DataAccessException(
+                    "Error updating Pharmacy",
+                    e
+            );
         }
     }
 
@@ -52,9 +58,11 @@ public class PharmacyDAOImpl implements PharmacyDAO {
             hibernateSession.close();
             return true;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            throw new DataAccessException(
+                    "Error removing Pharmacy",
+                    e
+            );
         }
-        return false;
     }
 
     @Override
@@ -68,9 +76,11 @@ public class PharmacyDAOImpl implements PharmacyDAO {
             hibernateSession.close();
             return pharmacy;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            throw new DataAccessException(
+                    "Error getting Pharmacy",
+                    e
+            );
         }
-        return null;
     }
 
     @Override
@@ -81,8 +91,10 @@ public class PharmacyDAOImpl implements PharmacyDAO {
             List<Pharmacy> listOfPharmacies = query.list();
             return listOfPharmacies;
         }catch (Exception e) {
-            System.out.println(e.getMessage());
+            throw new DataAccessException(
+                    "Error getting list of Pharmacies",
+                    e
+            );
         }
-        return null;
     }
 }

@@ -15,6 +15,8 @@ import org.hibernate.SessionFactory;
 
 import java.io.IOException;
 
+import static com.health.insurance.util.AlertUtil.showAlert;
+
 public class SignupController {
 
     @FXML
@@ -53,16 +55,10 @@ public class SignupController {
                 alert.setContentText("Record Saved Successfully");
                 alert.showAndWait();
             } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText("Failure!");
-                alert.setContentText("Failed to Save Record");
-                alert.showAndWait();
+                showAlert(Alert.AlertType.ERROR, "Failure!", "Failed to Save Record");
             }
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Password Mismatch");
-            alert.setContentText("Password Doesn't match.");
-            alert.showAndWait();
+            showAlert(Alert.AlertType.ERROR, "Password Mismatch!", "Password Doesn't match.");
         }
 
     }

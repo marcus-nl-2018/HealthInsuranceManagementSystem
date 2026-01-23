@@ -4,17 +4,18 @@ import com.health.insurance.DAO.InsuranceContractDAO;
 import com.health.insurance.DAOImpl.InsuranceContractDAOImpl;
 import com.health.insurance.Main;
 import com.health.insurance.beans.InsuranceContract;
+import com.health.insurance.util.NavigationUtil;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import static com.health.insurance.util.AlertUtil.showAlert;
 
 public class CreateContractController implements Initializable {
     @FXML
@@ -39,16 +40,9 @@ public class CreateContractController implements Initializable {
         InsuranceContractDAO insuranceContractDAO = new InsuranceContractDAOImpl();
         boolean isAdded = insuranceContractDAO.saveInsuranceContract(insuredContract);
         if(isAdded) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setHeaderText("Success!");
-            alert.setContentText("Record Saved Successfully");
-            alert.showAndWait();
-            gotoDashboard();
+            showAlert(Alert.AlertType.CONFIRMATION, "Success!", "Record Saved Successfully");
         }else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Failure!");
-            alert.setContentText("Failed to Save Record");
-            alert.showAndWait();
+            showAlert(Alert.AlertType.ERROR, "Failure!", "Failed to Save Record");
         }
     }
 
@@ -65,20 +59,6 @@ public class CreateContractController implements Initializable {
     }
 
     public void gotoDashboard(){
-        try {
-            String fxmlFile = "/fxml/Dashboard.fxml";
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
-            Scene scene = new Scene(loader.load());
-            Main.primaryStage.setScene(scene);
-            Main.primaryStage.hide();
-            Main.primaryStage.show();
-            Main.primaryStage.setMinWidth(780);
-            Main.primaryStage.setMinHeight(580);
-            Main.primaryStage.setMaxWidth(780);
-            Main.primaryStage.setMaxHeight(700);
-
-        }catch(Exception e) {
-            System.out.println(e);
-        }
+        NavigationUtil.goTo(Main.primaryStage, "/fxml/Dashboard.fxml");
     }
 }

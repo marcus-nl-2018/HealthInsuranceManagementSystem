@@ -2,6 +2,7 @@ package com.health.insurance.DAOImpl;
 
 import com.health.insurance.DAO.InsuredPersonDAO;
 import com.health.insurance.beans.InsuredPerson;
+import com.health.insurance.exception.DataAccessException;
 import com.health.insurance.util.FactoryProvider;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -22,9 +23,11 @@ public class InsuredPersonDAOImpl implements InsuredPersonDAO {
             hibernateSession.close();
             return true;
         } catch(Exception e) {
-            System.out.println(e.getMessage());
+            throw new DataAccessException(
+                    "Error saving Insurance Person",
+                    e
+            );
         }
-        return false;
     }
 
     @Override
@@ -37,7 +40,10 @@ public class InsuredPersonDAOImpl implements InsuredPersonDAO {
             hibernateTransaction.commit();
             hibernateSession.close();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            throw new DataAccessException(
+                    "Error updating Insurance Person",
+                    e
+            );
         }
     }
 
@@ -52,10 +58,11 @@ public class InsuredPersonDAOImpl implements InsuredPersonDAO {
             hibernateSession.close();
             return insuredPerson;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            throw new DataAccessException(
+                    "Error getting Insurance Person",
+                    e
+            );
         }
-        return null;
-
     }
 
     @Override
@@ -66,9 +73,11 @@ public class InsuredPersonDAOImpl implements InsuredPersonDAO {
             List<InsuredPerson> listOfInsuredPersons = query.list();
             return listOfInsuredPersons;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            throw new DataAccessException(
+                    "Error getting list of Insurance Person",
+                    e
+            );
         }
-        return null;
     }
 
     @Override
@@ -82,9 +91,10 @@ public class InsuredPersonDAOImpl implements InsuredPersonDAO {
             hibernateSession.close();
             return true;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            throw new DataAccessException(
+                    "Error removing Insurance Person",
+                    e
+            );
         }
-        return false;
-
     }
 }

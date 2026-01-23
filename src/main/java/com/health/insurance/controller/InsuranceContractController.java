@@ -4,12 +4,11 @@ import com.health.insurance.DAO.InsuranceContractDAO;
 import com.health.insurance.DAOImpl.InsuranceContractDAOImpl;
 import com.health.insurance.Main;
 import com.health.insurance.beans.InsuranceContract;
+import com.health.insurance.util.NavigationUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -18,6 +17,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import static com.health.insurance.util.AlertUtil.showAlert;
 
 
 public class InsuranceContractController implements Initializable {
@@ -40,19 +41,7 @@ public class InsuranceContractController implements Initializable {
 
     @FXML
     public void addContractOnAction() {
-        try {
-            String fxmlFile = "/fxml/CreateContract.fxml";
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
-            Scene scene = new Scene(loader.load());
-            Main.primaryStage.setScene(scene);
-            Main.primaryStage.show();
-            Main.primaryStage.setMinWidth(780);
-            Main.primaryStage.setMinHeight(580);
-            Main.primaryStage.setMaxWidth(780);
-            Main.primaryStage.setMaxHeight(700);
-        }catch(Exception e) {
-            System.out.println(e);
-        }
+        NavigationUtil.goTo(Main.primaryStage, "/fxml/CreateContract.fxml");
     }
     @FXML
     public void removeContract() {
@@ -60,18 +49,11 @@ public class InsuranceContractController implements Initializable {
         if(insuranceContract != null) {
             boolean isRemoved = insuranceContractDAO.removeInsuranceContract(insuranceContract);
             if(isRemoved) {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setHeaderText("Success!");
-                alert.setContentText("Record Deleted Successfully");
-                alert.showAndWait();
+                showAlert(Alert.AlertType.CONFIRMATION, "Success!", "Record Saved Successfully");
                 initialize(null, null);
             }else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText("Failure!");
-                alert.setContentText("Failed to Delete Record");
-                alert.showAndWait();
+                showAlert(Alert.AlertType.ERROR, "Failure!", "Failed to Save Record");
             }
-
         }
     }
 
@@ -92,20 +74,6 @@ public class InsuranceContractController implements Initializable {
 
     @FXML
     public void back() {
-        try {
-            String fxmlFile = "/fxml/Dashboard.fxml";
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
-            Scene scene = new Scene(loader.load());
-            Main.primaryStage.setScene(scene);
-            Main.primaryStage.hide();
-            Main.primaryStage.show();
-            Main.primaryStage.setMinWidth(780);
-            Main.primaryStage.setMinHeight(580);
-            Main.primaryStage.setMaxWidth(780);
-            Main.primaryStage.setMaxHeight(700);
-
-        }catch(Exception e) {
-            System.out.println(e);
-        }
+        NavigationUtil.goTo(Main.primaryStage, "/fxml/Dashboard.fxml");
     }
 }

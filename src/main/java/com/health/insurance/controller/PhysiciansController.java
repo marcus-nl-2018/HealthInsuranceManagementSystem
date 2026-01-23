@@ -4,12 +4,11 @@ import com.health.insurance.DAO.PhysicianDAO;
 import com.health.insurance.DAOImpl.PhysicianDAOImpl;
 import com.health.insurance.Main;
 import com.health.insurance.beans.Physician;
+import com.health.insurance.util.NavigationUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -18,6 +17,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import static com.health.insurance.util.AlertUtil.showAlert;
 
 
 public class PhysiciansController implements Initializable {
@@ -39,19 +40,7 @@ public class PhysiciansController implements Initializable {
 
     @FXML
     public void addPhysician() {
-        try {
-            String fxmlFile = "/fxml/AddPhysicians.fxml";
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
-            Scene scene = new Scene(loader.load());
-            Main.primaryStage.setScene(scene);
-            Main.primaryStage.show();
-            Main.primaryStage.setMinWidth(780);
-            Main.primaryStage.setMinHeight(580);
-            Main.primaryStage.setMaxWidth(780);
-            Main.primaryStage.setMaxHeight(700);
-        }catch(Exception e) {
-            System.out.println(e);
-        }
+        NavigationUtil.goTo(Main.primaryStage, "/fxml/AddPhysicians.fxml");
     }
 
     @Override
@@ -70,21 +59,7 @@ public class PhysiciansController implements Initializable {
 
     @FXML
     public void back() {
-        try {
-            String fxmlFile = "/fxml/Dashboard.fxml";
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
-            Scene scene = new Scene(loader.load());
-            Main.primaryStage.setScene(scene);
-            Main.primaryStage.hide();
-            Main.primaryStage.show();
-            Main.primaryStage.setMinWidth(780);
-            Main.primaryStage.setMinHeight(580);
-            Main.primaryStage.setMaxWidth(780);
-            Main.primaryStage.setMaxHeight(700);
-
-        }catch(Exception e) {
-            System.out.println(e);
-        }
+        NavigationUtil.goTo(Main.primaryStage, "/fxml/Dashboard.fxml");
     }
 
     @FXML
@@ -93,18 +68,11 @@ public class PhysiciansController implements Initializable {
         if(physician != null) {
             boolean isRemoved = physicianDAO.removePhysician(physician);
             if(isRemoved) {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setHeaderText("Success!");
-                alert.setContentText("Record Deleted Successfully");
-                alert.showAndWait();
+                showAlert(Alert.AlertType.CONFIRMATION, "Success!", "Record Saved Successfully");
                 initialize(null, null);
             }else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText("Failure!");
-                alert.setContentText("Failed to Delete Record");
-                alert.showAndWait();
+                showAlert(Alert.AlertType.ERROR, "Failure!", "Failed to Save Record");
             }
-
         }
     }
 }

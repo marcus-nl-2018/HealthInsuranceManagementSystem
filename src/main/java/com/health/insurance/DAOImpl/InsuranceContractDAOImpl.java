@@ -2,6 +2,7 @@ package com.health.insurance.DAOImpl;
 
 import com.health.insurance.DAO.InsuranceContractDAO;
 import com.health.insurance.beans.InsuranceContract;
+import com.health.insurance.exception.DataAccessException;
 import com.health.insurance.util.FactoryProvider;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -22,9 +23,11 @@ public class InsuranceContractDAOImpl implements InsuranceContractDAO {
             hibernateSession.close();
             return true;
         } catch(Exception e){
-            System.out.println(e.getMessage());
+            throw new DataAccessException(
+                    "Error saving Insurance Contract",
+                    e
+            );
         }
-        return false;
     }
 
     @Override
@@ -37,7 +40,10 @@ public class InsuranceContractDAOImpl implements InsuranceContractDAO {
             hibernateTransaction.commit();
             hibernateSession.close();
         } catch(Exception e) {
-            System.out.println(e.getMessage());
+            throw new DataAccessException(
+                    "Error updating Insurance Contract",
+                    e
+            );
         }
     }
 
@@ -52,9 +58,11 @@ public class InsuranceContractDAOImpl implements InsuranceContractDAO {
             hibernateSession.close();
             return insuranceContract;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            throw new DataAccessException(
+                    "Error getting Insurance Contract",
+                    e
+            );
         }
-        return null;
     }
 
     @Override
@@ -65,9 +73,11 @@ public class InsuranceContractDAOImpl implements InsuranceContractDAO {
             List<InsuranceContract> listOfInsuraceContracts = query.list();
             return listOfInsuraceContracts;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            throw new DataAccessException(
+                    "Error getting list of Insurance Contract",
+                    e
+            );
         }
-        return null;
     }
 
     @Override
@@ -81,9 +91,10 @@ public class InsuranceContractDAOImpl implements InsuranceContractDAO {
             hibernateSession.close();
             return true;
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            throw new DataAccessException(
+                    "Error removing Insurance Contract",
+                    e
+            );
         }
-        return false;
-
     }
 }
